@@ -83,6 +83,7 @@ local ESPGroupBox = Tabs.Visuals:AddRightGroupbox("ESP", "boxes")
 
 -- toggles and stuff --
 
+getgenv().WalkSpeedSlider = 2
 WalkSpeedGroupBox:AddSlider(" ", {
 	Default = 2,
 	Min = 2,
@@ -106,7 +107,8 @@ end)
 
 
 
-WalkSpeedGroupBox:AddToggle("Enable walkspeed", {
+WalkSpeedGroupBox:AddToggle("EnablewalkspeedToggle", {
+	Text = "Enable Walkspeed",
 	Tooltip = "Enables Walkspeed", -- Information shown when you hover over the toggle
 	DisabledTooltip = "Enables Walkspeed", -- Information shown when you hover over the toggle while it's disabled
 
@@ -123,8 +125,8 @@ WalkSpeedGroupBox:AddToggle("Enable walkspeed", {
 
 
 local WalkSpeedLoop
-Toggles["Enable walkspeed"]:OnChanged(function()
-	if Toggles["Enable walkspeed"].Value then
+Toggles.EnablewalkspeedToggle:OnChanged(function()
+	if Toggles.EnablewalkspeedToggle.Value then
 		WalkSpeedLoop = RunService.RenderStepped:Connect(function()
 			Hum.WalkSpeed = getgenv().WalkSpeedSlider
 			if getgenv().CrouchSpoof then
@@ -145,7 +147,8 @@ end)
 
 
 
-WalkSpeedGroupBox:AddToggle("No Acceleration", {
+WalkSpeedGroupBox:AddToggle("NoAccelerationToggle", {
+	Text = "No Acceleration",
 	Tooltip = "Makes you accelerate instantly",
 	DisabledTooltip = "Makes you accelerate instantly",
 
@@ -163,8 +166,8 @@ WalkSpeedGroupBox:AddToggle("No Acceleration", {
 
 local NoAccelLoop
 local oldCPP = Hrp.CustomPhysicalProperties
-Toggles["No Acceleration"]:OnChanged(function()
-	if Toggles["No Acceleration"].Value then
+Toggles.NoAccelerationToggle:OnChanged(function()
+	if Toggles.NoAccelerationToggle.Value then
 		NoAccelLoop = RunService.RenderStepped:Connect(function()
 			Hrp.CustomPhysicalProperties = PhysicalProperties.new(10, 0.7, 0)
 		end)
@@ -215,8 +218,8 @@ end
 
 
 
-ESPGroupBox:AddToggle("Door ESP", {
-
+ESPGroupBox:AddToggle("DoorESPToggle", {
+	Text = "Door ESP",
 	Default = false, -- Default value (true / false)
 	Disabled = false, -- Will disable the toggle (true / false)
 	Visible = true, -- Will make the toggle invisible (true / false)
@@ -229,8 +232,8 @@ ESPGroupBox:AddToggle("Door ESP", {
 
 
 local DoorDescendantChecker
-Toggles["Door ESP"]:OnChanged(function()
-	if Toggles["Door ESP"].Value then
+Toggles.DoorESPToggle:OnChanged(function()
+	if Toggles.DoorESPToggle.Value then
 		for _, Door in ipairs(Rooms:GetDescendants()) do
 			if Door.Name == "Door" and Door.Parent.Name == "Door" then
 				highlight(Door)
