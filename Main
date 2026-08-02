@@ -6,6 +6,10 @@ local ESPLibrary = loadstring(game:HttpGet("https://raw.githubusercontent.com/82
 
 
 
+ThemeManager:SetTheme("Idk")
+
+
+
 ESPLibrary:SetTextSize(20)
 ESPLibrary:SetFillTransparency(0.7)
 ESPLibrary:SetOutlineTransparency(0)
@@ -262,6 +266,76 @@ Toggles.DoorESPToggle:OnChanged(function()
 				if Model then
 					Model:Destroy()
 				end
+			end
+		end
+	end
+end)
+
+
+
+ESPGroupBox:AddToggle("ObjectiveESPToggle", {
+	Text = "Objective ESP",
+
+	Default = true, -- Default value (true / false)
+	Disabled = false, -- Will disable the toggle (true / false)
+	Visible = true, -- Will make the toggle invisible (true / false)
+	Risky = false, -- Makes the text red (the color can be changed using Library.Scheme.Red) (Default value = false)
+
+	Callback = function(Value)
+		
+	end,
+})
+
+
+
+local ObjectiveNames = {
+    ["KeyObtain"] = "Key",
+    ["LeverForGate"] = "Gate Lever",
+    ["LiveBreakerPolePickup"] = "Breaker",
+    ["LibraryHintPaper"] = "Hint Paper",
+    ["LiveHintBook"] = "Hint Book",
+    ["FuseObtain"] = "Fuse",
+    ["MinesGateButton"] = "Gate button",
+    ["MinesGenerator"] = "Generator",
+    ["TimerLever"] = "Time Lever",
+    ["MinesAnchor"] = "Anchor",
+    ["Console"] = "Console",
+    ["Wheel"] = "Waterpump",
+}
+
+
+
+local ObjDescendantChecker
+Toggles.ObjectiveESPToggle:OnChanged(function()
+	if Toggles.ObjectiveESPToggle.Value then
+		for _, Obj in ipairs(Rooms:GetDescendants()) do
+			if ObjectiveNames[Obj.Name] then
+				ESPLibrary:AddESP({
+					Object = Obj,
+					Text = ObjectiveNames[Obj.Name],
+					Color = Color3.fromRGB(0, 255, 0)
+				})
+			end
+		end
+
+		ObjDescendantChecker = Rooms.DescendantAdded:Connect(function(Obj)
+			if ObjectiveNames[Obj.Name] then
+				ESPLibrary:AddESP({
+				Object = Obj,
+				Text = ObjectiveNames[Obj.Name],
+				Color = Color3.fromRGB(0, 255, 0)
+				})
+			end
+		end)
+	else
+		if ObjDescendantChecker then
+			ObjDescendantChecker:Disconnect()
+			ObjDescendantChecker = nil
+		end
+
+		for _, Obj in ipairs(Rooms:GetDescendants()) do
+			if ObjectiveNames[Obj.Name] then
+				ESPLibrary:RemoveESP(Obj)
 			end
 		end
 	end
