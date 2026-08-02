@@ -215,7 +215,7 @@ end
 
 
 
-ESPGroupBox:AddToggle("Door ESP", { -- Information shown when you hover over the toggle -- Information shown when you hover over the toggle while it's disabled
+ESPGroupBox:AddToggle("Door ESP", {
 
 	Default = false, -- Default value (true / false)
 	Disabled = false, -- Will disable the toggle (true / false)
