@@ -2,6 +2,7 @@ local repo = "https://raw.githubusercontent.com/8273952/ObsidianUI/refs/heads/ma
 local Library = loadstring(game:HttpGet(repo .. "Library.lua"))()
 local ThemeManager = loadstring(game:HttpGet(repo .. "addons/ThemeManager.lua"))()
 local SaveManager = loadstring(game:HttpGet(repo .. "addons/SaveManager.lua"))()
+local ESPLibrary = loadstring(game:HttpGet("https://raw.githubusercontent.com/8273952/ESPLibrary/refs/heads/main/Library.lua"))()
 
 
 
@@ -10,6 +11,8 @@ local Plr = game:GetService("Players").LocalPlayer
 local Hum = game:GetService("Players").LocalPlayer.Character.Humanoid
 local Hrp = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart
 local RunService = game:GetService("RunService")
+local Workspace = game:GetService("Workspace")
+local Rooms = game:GetService("Workspace").CurrentRooms
 local RemotesFolder = game:GetService("ReplicatedStorage").RemotesFolder
 local Options = Library.Options
 local Toggles = Library.Toggles
@@ -57,8 +60,9 @@ local Tabs = {
 -- group boxes --
 
 local WalkSpeedGroupBox = Tabs.General:AddLeftGroupbox("Walkspeed", "boxes")
-local PPGroupBox = Tabs.General:AddLeftGroupbox("Proxmity prompts", "boxes")
+local PPGroupBox = Tabs.General:AddRightGroupbox("Proxmity prompts", "boxes")
 
+local ESPGroupBox = Tabs.Visuals:AddRightGroupbox("ESP", "boxes")
 
 
 -- toggles and stuff --
@@ -155,5 +159,61 @@ Toggles["No Acceleration"]:OnChanged(function()
 		end
 
 		Hrp.CustomPhysicalProperties = oldCPP
+	end
+end)
+
+
+
+local function highlight(Door)
+	if not Door.Parent:FindFirstChild("hModel") then
+		local Model = Instance.new("Model")
+		Model.Name = "hModel"
+		Model.Parent = Door.Parent
+
+		local hPart = Instance.new("Part")
+		hPart.Size = Door.Size
+		hPart.CFrame = Door.CFrame
+		hPart.Transparency = 0.99
+		hPart.CanCollide = false
+		hPart.Name = "hPart"
+		hPart.Parent = Model
+
+		local humanoid = Instance.new("Humanoid")
+		humanoid.Name = "hHum"
+		humanoid.Parent = Model
+
+		local weld = Instance.new("Weld")
+        weld.Part0 = Door
+        weld.Part1 = hPart
+        weld.C0 = CFrame.new(0, 0, 0)
+        weld.Parent = hPart
+	end
+end
+
+
+
+ESPGroupBox:AddToggle("Door ESP", { -- Information shown when you hover over the toggle -- Information shown when you hover over the toggle while it's disabled
+
+	Default = false, -- Default value (true / false)
+	Disabled = false, -- Will disable the toggle (true / false)
+	Visible = true, -- Will make the toggle invisible (true / false)
+	Risky = false, -- Makes the text red (the color can be changed using Library.Scheme.Red) (Default value = false)
+
+	Callback = function(Value)
+		
+	end,
+})
+
+
+
+Toggles["Door ESP"]:OnChanged(function()
+	if Toggles["Door ESP"].Value then
+		for _, Door in ipairs(Rooms:GetDescendants()) do
+			if Door.Name == "Door" and Door.Parent.Name == "Door" then
+				highlight(Door)
+			end
+		end
+	else
+		
 	end
 end)
