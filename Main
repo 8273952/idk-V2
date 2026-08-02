@@ -144,7 +144,7 @@ WalkSpeedGroupBox:AddToggle("No Acceleration", {
 local NoAccelLoop
 local oldCPP = Hrp.CustomPhysicalProperties
 Toggles["No Acceleration"]:OnChanged(function()
-	if Toggles["No Acceleration"] then
+	if Toggles["No Acceleration"].Value then
 		NoAccelLoop = RunService.RenderStepped:Connect(function()
 			Hrp.CustomPhysicalProperties = PhysicalProperties.new(10, 0.7, 0)
 		end)
