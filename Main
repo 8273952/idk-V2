@@ -122,3 +122,38 @@ Toggles["Enable walkspeed"]:OnChanged(function()
 		Hum.WalkSpeed = 15
 	end
 end)
+
+
+
+WalkSpeedGroupBox:AddToggle("No Acceleration", {
+	Tooltip = "Makes you accelerate instantly",
+	DisabledTooltip = "Makes you accelerate instantly",
+
+	Default = false,
+	Disabled = false,
+	Visible = true,
+	Risky = false,
+
+	Callback = function(Value)
+		
+	end,
+})
+
+
+
+local NoAccelLoop
+local oldCPP = Hrp.CustomPhysicalProperties
+Toggles["No Acceleration"]:OnChanged(function()
+	if Toggles["No Acceleration"] then
+		NoAccelLoop = RunService.RenderStepped:Connect(function()
+			Hrp.CustomPhysicalProperties = PhysicalProperties.new(10, 0.7, 0)
+		end)
+	else
+		if NoAccelLoop then
+			NoAccelLoop:Disconnect()
+			NoAccelLoop = nil
+		end
+
+		Hrp.CustomPhysicalProperties = oldCPP
+	end
+end)
