@@ -6,7 +6,7 @@ local ESPLibrary = loadstring(game:HttpGet("https://raw.githubusercontent.com/82
 
 
 
-ThemeManager:SetTheme("Idk")
+ThemeManager:ApplyTheme("Idk")
 
 
 
