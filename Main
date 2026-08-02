@@ -54,7 +54,7 @@ local PPGroupBox = Tabs.General:AddLeftGroupbox("Proxmity prompts", "boxes")
 
 -- toggles and stuff --
 
-WalkSpeedGroupBox:AddSlider("", {
+WalkSpeedGroupBox:AddSlider(" ", {
 	Default = 0,
 	Min = 2,
 	Max = 100,
@@ -95,7 +95,7 @@ Toggles["Enable walkspeed"]:OnChanged(function()
 			if getgenv().CrouchSpoof then
 				RemotesFolder.Crouch:FireServer(true, true)
 			else
-				RemotesFolder.Crouch:FireServer(false, true
+				RemotesFolder.Crouch:FireServer(false, true)
 			end
 		end)
 	else
