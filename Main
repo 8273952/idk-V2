@@ -64,7 +64,7 @@ local PPGroupBox = Tabs.General:AddLeftGroupbox("Proxmity prompts", "boxes")
 -- toggles and stuff --
 
 WalkSpeedGroupBox:AddSlider(" ", {
-	Default = 0,
+	Default = 2,
 	Min = 2,
 	Max = 100,
 	Rounding = 1,
