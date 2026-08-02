@@ -1,4 +1,4 @@
-local repo = loadstring(game:HttpGet("https://raw.githubusercontent.com/8273952/ObsidianUI/refs/heads/main"))()
+local repo = "https://raw.githubusercontent.com/8273952/ObsidianUI/refs/heads/main"
 local Library = loadstring(game:HttpGet(repo .. "Library.lua"))()
 local ThemeManager = loadstring(game:HttpGet(repo .. "addons/ThemeManager.lua"))()
 local SaveManager = loadstring(game:HttpGet(repo .. "addons/SaveManager.lua"))()
@@ -22,24 +22,24 @@ local Window = Library:CreateWindow({
 	Icon = 95816097006870,
 	NotifySide = "Right",
 	ShowCustomCursor = true,
-  MobileButtonsSide = "Left",
-  AutoShow = true,
-  Resizable = true,
-  Center = true,
+  	MobileButtonsSide = "Left",
+  	AutoShow = true,
+  	Resizable = true,
+  	Center = true,
 })
 
 local Tabs = {
 	-- Creates a new tab titled Main
 	General = Window:AddTab("General", "user"),
-  Visuals = Window:AddTab("Visuals", "eye"),
-  Exploits = Window:AddTab("Exploits", ""),
+  	Visuals = Window:AddTab("Visuals", "eye"),
+  	Exploits = Window:AddTab("Exploits", ""),
 	Key = Window:AddKeyTab("Key System"),
 	["UI Settings"] = Window:AddTab("UI Settings", "settings"),
 }
 
 local LeftGroupBox = Tabs.General:AddLeftGroupbox("Groupbox", "boxes")
 
-local LeftTabBox = Tabs.Main:AddLeftTabbox() -- Add Tabbox on left side
+local LeftTabBox = Tabs.General:AddLeftTabbox() -- Add Tabbox on left side
 
 local WalkSpeedTab = LeftTabBox:AddTab("Walkspeed")
 local PPTab = LeftTabBox:AddTab("Proximity Prompts")
@@ -54,11 +54,12 @@ LeftGroupBox:AddToggle("Enable walkspeed", {
 	Risky = false, -- Makes the text red (the color can be changed using Library.Scheme.Red) (Default value = false)
 
 	Callback = function(Value)
-		print("[cb] MyToggle changed to:", Value)
+		print("[cb] Enable walkspeed changed to:", Value)
 	end,
 })
 
 Toggles.Enable walkspeed:OnChanged(function()
 	-- here we get our toggle object & then get its value
-	print("Enable walkspeed changed to:", Toggles.Enable walkspeed.Value)
+	print("Enable walkspeed changed to:", Toggles["Enable walkspeed"].Value)
+	print("Yo mama wehbfieubfiwuehf")
 end)
