@@ -58,7 +58,7 @@ LeftGroupBox:AddToggle("Enable walkspeed", {
 	end,
 })
 
-Toggles.Enable walkspeed:OnChanged(function()
+Toggles["Enable walkspeed"]:OnChanged(function()
 	-- here we get our toggle object & then get its value
 	print("Enable walkspeed changed to:", Toggles["Enable walkspeed"].Value)
 	print("Yo mama wehbfieubfiwuehf")
