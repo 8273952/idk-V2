@@ -80,8 +80,8 @@ WalkSpeedGroupBox:AddSlider(" ", {
 
 
 
-Options.Walkspeed:OnChanged(function()
-	getgenv().WalkSpeedSlider = Options.Walkspeed.Value
+Options[" "]:OnChanged(function()
+	getgenv().WalkSpeedSlider = Options[" "].Value
 end)
 
 
