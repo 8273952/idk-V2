@@ -28,6 +28,8 @@ local Window = Library:CreateWindow({
   	Center = true,
 })
 
+print("Window")
+
 local Tabs = {
 	-- Creates a new tab titled Main
 	General = Window:AddTab("General", "user"),
@@ -37,12 +39,20 @@ local Tabs = {
 	["UI Settings"] = Window:AddTab("UI Settings", "settings"),
 }
 
+print("Tab")
+
 local LeftGroupBox = Tabs.General:AddLeftGroupbox("Groupbox", "boxes")
+
+print("Groupbox")
 
 local LeftTabBox = Tabs.General:AddLeftTabbox() -- Add Tabbox on left side
 
+print("Tabbox")
+
 local WalkSpeedTab = LeftTabBox:AddTab("Walkspeed")
 local PPTab = LeftTabBox:AddTab("Proximity Prompts")
+
+pint("Tab 2")
 
 LeftGroupBox:AddToggle("Enable walkspeed", {
 	Tooltip = "This is a tooltip", -- Information shown when you hover over the toggle
@@ -58,8 +68,12 @@ LeftGroupBox:AddToggle("Enable walkspeed", {
 	end,
 })
 
+print("Toggle")
+
 Toggles["Enable walkspeed"]:OnChanged(function()
 	-- here we get our toggle object & then get its value
 	print("Enable walkspeed changed to:", Toggles["Enable walkspeed"].Value)
 	print("Yo mama wehbfieubfiwuehf")
 end)
+
+print("kjebfwiuebfowufheoiwefh")
