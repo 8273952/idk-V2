@@ -6,10 +6,6 @@ local ESPLibrary = loadstring(game:HttpGet("https://raw.githubusercontent.com/82
 
 
 
-ThemeManager:ApplyTheme("Idk")
-
-
-
 ESPLibrary:SetTextSize(20)
 ESPLibrary:SetFillTransparency(0.7)
 ESPLibrary:SetOutlineTransparency(0)
@@ -88,7 +84,8 @@ local ESPGroupBox = Tabs.Visuals:AddRightGroupbox("ESP", "boxes")
 -- toggles and stuff --
 
 getgenv().WalkSpeedSlider = 2
-WalkSpeedGroupBox:AddSlider(" ", {
+WalkSpeedGroupBox:AddSlider("WalkspeedSlider", {
+	Text = " ",
 	Default = 2,
 	Min = 2,
 	Max = 100,
@@ -105,8 +102,8 @@ WalkSpeedGroupBox:AddSlider(" ", {
 
 
 
-Options[" "]:OnChanged(function()
-	getgenv().WalkSpeedSlider = Options[" "].Value
+Options.WalkspeedSlider:OnChanged(function()
+	getgenv().WalkSpeedSlider = Options.WalkspeedSlider.Value
 end)
 
 
@@ -182,6 +179,109 @@ Toggles.NoAccelerationToggle:OnChanged(function()
 		end
 
 		Hrp.CustomPhysicalProperties = oldCPP
+	end
+end)
+
+
+
+getgenv().PPReachSlider = 1
+PPGroupBox:AddSlider("PromptReachSlider", {
+	Text = " ",
+	Default = 1,
+	Min = 1,
+	Max = 5,
+	Rounding = 1,
+	Compact = false,
+
+	Callback = function(Value)
+		
+	end,
+
+	Disabled = false, -- Will disable the slider (true / false)
+	Visible = true, -- Will make the slider invisible (true / false)
+})
+
+
+
+Options.PromptReachSlider:OnChanged(function()
+	getgenv().PPReachSlider = Options.PromptReachSlider.Value
+	print(getgenv().PPReachSlider)
+end)
+
+
+
+PPGroupBox:AddToggle("PromptReachToggle", {
+	Text = "Prompt Reach",
+	Tooltip = "Increases prompt activation distance", -- Information shown when you hover over the toggle
+	DisabledTooltip = "Increases prompt activation distance", -- Information shown when you hover over the toggle while it's disabled
+
+	Default = false, -- Default value (true / false)
+	Disabled = false, -- Will disable the toggle (true / false)
+	Visible = true, -- Will make the toggle invisible (true / false)
+	Risky = false, -- Makes the text red (the color can be changed using Library.Scheme.Red) (Default value = false)
+
+	Callback = function(Value)
+		
+	end,
+})
+
+
+
+Toggles.PromptReachToggle:OnChanged(function()
+	print("PP reach toggle: " .. Toggles.PromptReachToggle.Value)
+end)
+
+
+
+PPGroupBox:AddToggle("ClipPromptToggle", {
+	Text = "Clip prompt",
+	Tooltip = "Lets you activate prompts through walls", -- Information shown when you hover over the toggle
+	DisabledTooltip = "Lets you activate prompts through walls", -- Information shown when you hover over the toggle while it's disabled
+
+	Default = false, -- Default value (true / false)
+	Disabled = false, -- Will disable the toggle (true / false)
+	Visible = true, -- Will make the toggle invisible (true / false)
+	Risky = false, -- Makes the text red (the color can be changed using Library.Scheme.Red) (Default value = false)
+
+	Callback = function(Value)
+		
+	end,
+})
+
+
+
+local promptDescendantChecker
+Toggles.ClipPromptToggle:OnChanged(function()
+	if Toggles.ClipPromptToggle.Value then
+		for _, prompt in ipairs(Rooms:GetDescendants()) do
+			if prompt:IsA("ProximityPrompt") then
+				prompt:SetAttribute("OldRLOS", prompt.RequiresLineOfSight)
+				prompt.RequiresLineOfSight = false
+			end
+		end
+
+		promptDescendantChecker = Rooms.DescendantAdded:Connect(function(prompt)
+			if prompt:IsA("ProximityPrompt") then
+				prompt:SetAttribute("OldRLOS", prompt.RequiresLineOfSight)
+				prompt.RequiresLineOfSight = false
+			end
+		end)
+	else
+		if promptDescendantChecker then
+			promptDescendantChecker:Disconnect()
+			promptDescendantChecker = nil
+		end
+
+		for _, prompt in ipairs(Rooms:GetDescendants()) do
+			if prompt:IsA("ProximityPrompt") then
+				if prompt:GetAttribute("OldRLOS") ~= nil then
+					prompt.RequiresLineOfSight = prompt:GetAttribute("OldRLOS")
+					prompt:SetAttribute("OldRLOS", nil)
+				else
+					prompt.RequiresLineOfSight = true
+				end
+			end
+		end
 	end
 end)
 
