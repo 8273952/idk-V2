@@ -205,7 +205,6 @@ PPGroupBox:AddSlider("PromptReachSlider", {
 
 Options.PromptReachSlider:OnChanged(function()
 	getgenv().PPReachSlider = Options.PromptReachSlider.Value
-	print(getgenv().PPReachSlider)
 end)
 
 
@@ -227,8 +226,32 @@ PPGroupBox:AddToggle("PromptReachToggle", {
 
 
 
+local PromptDescendantChecker
 Toggles.PromptReachToggle:OnChanged(function()
-	print("PP reach toggle: " .. Toggles.PromptReachToggle.Value)
+	if Toggles.PromptReachToggle.Value then
+		for _, prompt in ipairs(Rooms:GetDescendants()) do
+			if prompt:IsA("ProximityPrompt") then
+				prompt:SetAttribute("OldMAD", prompt.MaxActivationDistance)
+				prompt.MaxActivationDistance = prompt.MaxActivationDistance + getgenv().PPReachSlider
+			end
+		end
+
+		PromptDescendantChecker = Rooms.DescendantAdded:Connect(function(prompt)
+			if prompt:IsA("ProximityPrompt") then
+				prompt:SetAttribute("OldMAD", prompt.MaxActivationDistance)
+				prompt.MaxActivationDistance = prompt.MaxActivationDistance + getgenv().PPReachSlider
+			end
+		end)
+	else
+		for _, prompt in ipairs(Rooms:GetDescendants()) do
+			if prompt:IsA("ProximityPrompt") then
+				if prompt:GetAttribute("OldMAD") ~= nil then
+					prompt.MaxActivationDistance = prompt:GetAttribute("OldMAD")
+					prompt:SetAttribute("OldMAD", nil)
+				end
+			end
+		end
+	end
 end)
 
 
