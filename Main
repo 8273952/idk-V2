@@ -406,7 +406,7 @@ end)
 ESPGroupBox:AddToggle("ObjectiveESPToggle", {
 	Text = "Objective ESP",
 
-	Default = true, -- Default value (true / false)
+	Default = false, -- Default value (true / false)
 	Disabled = false, -- Will disable the toggle (true / false)
 	Visible = true, -- Will make the toggle invisible (true / false)
 	Risky = false, -- Makes the text red (the color can be changed using Library.Scheme.Red) (Default value = false)
@@ -538,7 +538,7 @@ local ItemNames = {
 ESPGroupBox:AddToggle("ItemESPToggle", {
 	Text = "Item ESP",
 
-	Default = true, -- Default value (true / false)
+	Default = false, -- Default value (true / false)
 	Disabled = false, -- Will disable the toggle (true / false)
 	Visible = true, -- Will make the toggle invisible (true / false)
 	Risky = false, -- Makes the text red (the color can be changed using Library.Scheme.Red) (Default value = false)
@@ -554,21 +554,25 @@ Toggles.ItemESPToggle:OnChanged(function()
 	if Toggles.ItemESPToggle.Value then
 		for _, Item in ipairs(Rooms:GetDescendants()) do
 			if ItemNames[Item.Name] then
-				ESPLibrary:AddESP({
-				Object = Item,
-				Text = ItemNames[Item.Name],
-				Color = Color3.fromRGB(255, 255, 0),
-				})
+				if Item:IsA("Model") then
+					ESPLibrary:AddESP({
+					Object = Item,
+					Text = ItemNames[Item.Name],
+					Color = Color3.fromRGB(255, 255, 0),
+					})
+				end
 			end
 		end
 
 		ItemDescendantChecker = Rooms.DescendantAdded:Connect(function(Item)
 			if ItemNames[Item.Name] then
-				ESPLibrary:AddESP({
-				Object = Item,
-				Text = ItemNames[Item.Name],
-				Color = Color3.fromRGB(255, 255, 0),
-				})
+				if Item:IsA("Model") then
+					ESPLibrary:AddESP({
+					Object = Item,
+					Text = ItemNames[Item.Name],
+					Color = Color3.fromRGB(255, 255, 0),
+					})
+				end
 			end
 		end)
 	else
@@ -579,7 +583,9 @@ Toggles.ItemESPToggle:OnChanged(function()
 
 		for _, Item in ipairs(Rooms:GetDescendants()) do
 			if ItemNames[Item.Name] then
-				ESPLibrary:RemoveESP(Item)
+				if Item:IsA("Model") then
+					ESPLibrary:RemoveESP(Item)
+				end
 			end
 		end
 	end
