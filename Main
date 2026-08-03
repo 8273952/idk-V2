@@ -554,7 +554,11 @@ Toggles.ItemESPToggle:OnChanged(function()
 	if Toggles.ItemESPToggle.Value then
 		for _, Item in ipairs(Rooms:GetDescendants()) do
 			if ItemNames[Item.Name] then
-				
+				ESPLibrary:AddESP({
+					Object = Item,
+					Text = ItemNames[Item.Name],
+					Color = Color3.fromRGB(255, 255, 0)
+				})
 			end
 		end
 	else
