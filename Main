@@ -81,7 +81,10 @@ local PPGroupBox = Tabs.General:AddRightGroupbox("Proxmity prompts", "boxes")
 local ESPGroupBox = Tabs.Visuals:AddRightGroupbox("ESP", "boxes")
 
 
+
 -- General toggles and stuff --
+
+
 
 getgenv().WalkSpeedSlider = 2
 WalkSpeedGroupBox:AddSlider("WalkspeedSlider", {
