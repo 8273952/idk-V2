@@ -243,6 +243,11 @@ Toggles.PromptReachToggle:OnChanged(function()
 			end
 		end)
 	else
+		if PromptDescendantChecker then
+			PromptDescendantChecker:Disconnect()
+			PromptDescendantChecker = nil
+		end
+
 		for _, prompt in ipairs(Rooms:GetDescendants()) do
 			if prompt:IsA("ProximityPrompt") then
 				if prompt:GetAttribute("OldMAD") ~= nil then
@@ -273,7 +278,7 @@ PPGroupBox:AddToggle("ClipPromptToggle", {
 
 
 
-local promptDescendantChecker
+local PromptDescendantChecker1
 Toggles.ClipPromptToggle:OnChanged(function()
 	if Toggles.ClipPromptToggle.Value then
 		for _, prompt in ipairs(Rooms:GetDescendants()) do
@@ -283,16 +288,16 @@ Toggles.ClipPromptToggle:OnChanged(function()
 			end
 		end
 
-		promptDescendantChecker = Rooms.DescendantAdded:Connect(function(prompt)
+		PromptDescendantChecker1 = Rooms.DescendantAdded:Connect(function(prompt)
 			if prompt:IsA("ProximityPrompt") then
 				prompt:SetAttribute("OldRLOS", prompt.RequiresLineOfSight)
 				prompt.RequiresLineOfSight = false
 			end
 		end)
 	else
-		if promptDescendantChecker then
-			promptDescendantChecker:Disconnect()
-			promptDescendantChecker = nil
+		if PromptDescendantChecker1 then
+			PromptDescendantChecker1:Disconnect()
+			PromptDescendantChecker1 = nil
 		end
 
 		for _, prompt in ipairs(Rooms:GetDescendants()) do
