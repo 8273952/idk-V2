@@ -80,6 +80,8 @@ local PPGroupBox = Tabs.General:AddRightGroupbox("Proxmity prompts", "boxes")
 
 local ESPGroupBox = Tabs.Visuals:AddRightGroupbox("ESP", "boxes")
 
+local BypassGroupBox = Tabs.Visuals:AddRightGroupbox("Bypasses", "boxes")
+
 
 
 -- General toggles and stuff --
@@ -130,6 +132,7 @@ WalkSpeedGroupBox:AddToggle("EnablewalkspeedToggle", {
 
 local WalkSpeedLoop
 Toggles.EnablewalkspeedToggle:OnChanged(function()
+	getgenv().WalkSpeedEnabled = Toggles.EnablewalkspeedToggle.Value
 	if Toggles.EnablewalkspeedToggle.Value then
 		WalkSpeedLoop = RunService.RenderStepped:Connect(function()
 			Hum.WalkSpeed = getgenv().WalkSpeedSlider
@@ -594,6 +597,57 @@ Toggles.ItemESPToggle:OnChanged(function()
 					ESPLibrary:RemoveESP(Item)
 				end
 			end
+		end
+	end
+end)
+
+
+
+-- Exploits toggles and stuff --
+
+
+
+BypassGroupBox:AddToggle("CrouchSpoofToggle", {
+	Text = "Crouch spoof",
+	Tooltip = "Makes the server think your crouching", -- Information shown when you hover over the toggle
+	DisabledTooltip = "Makes the server think your crouching", -- Information shown when you hover over the toggle while it's disabled
+
+	Default = false, -- Default value (true / false)
+	Disabled = false, -- Will disable the toggle (true / false)
+	Visible = true, -- Will make the toggle invisible (true / false)
+	Risky = false, -- Makes the text red (the color can be changed using Library.Scheme.Red) (Default value = false)
+
+	Callback = function(Value)
+		
+	end,
+})
+
+
+
+local CrouchLoop
+Toggles.CrouchSpoofToggle:OnChanged(function()
+	if Toggles.CrouchSpoofToggle.Value then
+		if getgenv().WalkSpeedEnabled then
+			getgenv().CrouchSpoof = true
+		else
+			CrouchLoop = RunService.RenderStepped:Connect(function()
+				RemotesFolder.Crouch:FireServer(true, true)
+			end)
+		end
+	else
+		if CrouchLoop then
+			CrouchLoop:Disconnect()
+			CrouchLoop = nil
+		end
+
+		if getgenv().CrouchSpoof then
+			getgenv().CrouchSpoof = false
+		end
+
+		if getgenv().WalkSpeedEnabled then
+			RemotesFolder.Crouch:FireServer(false, true)
+		else
+			RemotesFolder.Crouch:FireServer(false, false)
 		end
 	end
 end)
