@@ -389,9 +389,9 @@ Toggles.DoorESPToggle:OnChanged(function()
 
 				if Model then
 					local hPart = Model:FindFirstChild("hPart")
-				end
-				if hPart then
-					ESPLibrary:RemoveESP(hPart)
+					if hPart then
+						ESPLibrary:RemoveESP(hPart)
+					end
 				end
 				if Model then
 					Model:Destroy()
@@ -557,7 +557,7 @@ Toggles.ItemESPToggle:OnChanged(function()
 				ESPLibrary:AddESP({
 				Object = Item,
 				Text = ItemNames[Item.Name],
-				Color = Color3.fromRGB(255, 255, 0)
+				Color = Color3.fromRGB(255, 255, 0),
 				})
 			end
 		end
@@ -566,8 +566,8 @@ Toggles.ItemESPToggle:OnChanged(function()
 			if ItemNames[Item.Name] then
 				ESPLibrary:AddESP({
 				Object = Item,
-				Text = ItemNames[Item.Name]
-				Color = Color3.fromRGB(255, 255, 0)
+				Text = ItemNames[Item.Name],
+				Color = Color3.fromRGB(255, 255, 0),
 				})
 			end
 		end)
