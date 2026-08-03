@@ -549,19 +549,38 @@ ESPGroupBox:AddToggle("ItemESPToggle", {
 })
 
 
-
+local ItemDescendantChecker
 Toggles.ItemESPToggle:OnChanged(function()
 	if Toggles.ItemESPToggle.Value then
 		for _, Item in ipairs(Rooms:GetDescendants()) do
 			if ItemNames[Item.Name] then
 				ESPLibrary:AddESP({
-					Object = Item,
-					Text = ItemNames[Item.Name],
-					Color = Color3.fromRGB(255, 255, 0)
+				Object = Item,
+				Text = ItemNames[Item.Name],
+				Color = Color3.fromRGB(255, 255, 0)
 				})
 			end
 		end
-	else
 
+		ItemDescendantChecker = Rooms.DescendantAdded:Connect(function(Item)
+			if ItemNames[Item.Name] then
+				ESPLibrary:AddESP({
+				Object = Item,
+				Text = ItemNames[Item.Name]
+				Color = Color3.fromRGB(255, 255, 0)
+				})
+			end
+		end)
+	else
+		if ItemDescendantChecker then
+			ItemDescendantChecker:Disconnect()
+			ItemDescendantChecker = nil
+		end
+
+		for _, Item in ipairs(Rooms:GetDescendants()) do
+			if ItemNames[Item.Name] then
+				ESPLibrary:RemoveESP(Item)
+			end
+		end
 	end
 end)
