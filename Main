@@ -81,7 +81,7 @@ local PPGroupBox = Tabs.General:AddRightGroupbox("Proxmity prompts", "boxes")
 local ESPGroupBox = Tabs.Visuals:AddRightGroupbox("ESP", "boxes")
 
 
--- toggles and stuff --
+-- General toggles and stuff --
 
 getgenv().WalkSpeedSlider = 2
 WalkSpeedGroupBox:AddSlider("WalkspeedSlider", {
@@ -312,6 +312,10 @@ Toggles.ClipPromptToggle:OnChanged(function()
 		end
 	end
 end)
+
+
+
+-- VIsuals toggles and stuff
 
 
 
