@@ -386,8 +386,10 @@ Toggles.DoorESPToggle:OnChanged(function()
 		for _, Door in ipairs(Rooms:GetDescendants()) do
 			if Door.Name == "Door" and Door.Parent.Name == "Door" then
 				local Model = Door.Parent:FindFirstChild("hModel")
-				local hPart = Model:FindFirstChild("hPart")
 
+				if Model then
+					local hPart = Model:FindFirstChild("hPart")
+				end
 				if hPart then
 					ESPLibrary:RemoveESP(hPart)
 				end
